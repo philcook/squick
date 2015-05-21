@@ -19,7 +19,7 @@ wp squick install
 Example output
 
 ```bash
-$ wp quick install
+$ wp squick install
 Installing to /Users/username/Sites/squick/ ...
 Downloading WordPress 3.8.1 (en_US)...
 Success: WordPress downloaded.
