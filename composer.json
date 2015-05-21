@@ -1,0 +1,25 @@
+{
+    "name": "philcook/squick",
+    "type": "command",
+    "description": "Squick WordPress install.",
+    "keywords": ["wp-cli", "install", "squick", "wordpress", "helpers"],
+    "homepage": "https://github.com/philcook/squick",
+    "require": {
+        "wp-cli/wp-cli": ">=0.19"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Phil Cook",
+            "email": "phil@phil-cook.com",
+            "homepage": "http://phil-cook.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/philcook/squick/issues",
+        "source": "https://github.com/philcook/squick"
+    },
+    "autoload": {
+        "files": [ "command.php" ]
+    }
+}
