@@ -61,20 +61,9 @@ class SquickCommand extends WP_CLI_Command
         echo exec('wp core install')."\n";
 
         // 5) Remove default plugins and themes
-        $dirs = array($config['path'] . 'wp-content/plugins/', $config['path'] . 'wp-content/themes/');
-        $leave_items = array('index.php', $extra_config['theme-name']);
-        foreach ($dirs as $dir) {
-            if (is_dir($dir)) {
-                foreach (glob("$dir*") as $item) {
-                    if (!in_array(basename($item), $leave_items)) {
-                        if (is_dir($item)) {
-                            $this->rrmdir($item);
-                        } else {
-                            unlink($item);
-                        }
-                    }
-                }
-            }
+        WP_CLI::line('Deleting list of skipped plugins...');
+        foreach ($config['skip-plugins'] as $plugin) {
+            echo exec('wp plugin delete '.$plugin)."\n";
         }
 
         // 6) plugin install
@@ -83,31 +72,19 @@ class SquickCommand extends WP_CLI_Command
             echo exec('wp plugin install '.$plugin. ' --activate')."\n";
         }
 
-        // 7) Activate theme
+        // 7) Activate theme and delete others
+        WP_CLI::line('Activating theme name...');
         echo exec('wp theme activate '.$extra_config['theme-name'])."\n";
+
+        WP_CLI::line('Deleting list of skipped themes...');
+        foreach ($config['skip-themes'] as $theme) {
+            echo exec('wp theme delete '.$theme)."\n";
+        }
 
         chdir($rescue_directory);
 
         if (isset($config['url'])) {
             WP_CLI::launch('open ' . $config['url']);
-        }
-    }
-
-    private function rrmdir($dir)
-    {
-        if (is_dir($dir)) {
-            $objects = scandir($dir);
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    if (filetype($dir."/".$object) == "dir") {
-                        $this->rrmdir($dir."/".$object);
-                    } else {
-                        unlink($dir."/".$object);
-                    }
-                }
-            }
-            reset($objects);
-            rmdir($dir);
         }
     }
 }
